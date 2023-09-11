@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import Navbar from "./components/Navbar";
+import Auth from "./pages/Auth";
+import Usercontext from "./context/Usercontext";
+import Home from "./pages/Home";
+import Checkbal from "./pages/Checkbal";
+import Transfer from "./pages/Transfer";
+import NotFound from "./pages/NotFound";
+import AdminAuth from "./pages/AdminAuth";
+
 
 function App() {
+  const [user, setUser] = useState()
+  const [admin, setAdmin] = useState()
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Usercontext.Provider value={{ user, setUser, admin, setAdmin }}>
+        <Router>
+          <Navbar />
+            <Routes>
+              <Route path="/" element={<Auth />}/>
+              <Route path="/home" element={<Home />}/>
+              <Route path="/checkbal" element={<Checkbal />}/>
+              <Route path="/transfer" element={<Transfer />}/>
+              {/* Admin */}
+              <Route path="/admin/auth" element={<AdminAuth />}/>
+              <Route path="*" element={<NotFound />}/>
+            </Routes>
+        </Router>
+        
+        
+      </Usercontext.Provider>
+    </>
   );
 }
 
